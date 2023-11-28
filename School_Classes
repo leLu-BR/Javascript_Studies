@@ -1,0 +1,188 @@
+class School {
+  constructor(name, level, numberOfStudents) {
+    this._name = name;
+    this._numberOfStudents = numberOfStudents;
+    this._level = level;
+    this._averageTestScores = 0;
+  }
+
+  get name() {
+    return this._name;
+  }
+
+  get level() {
+    return this._level;
+  }
+
+  get numberOfStudents() {
+    return this._numberOfStudents;
+  }
+
+  get averageTestScores() {
+    return this._averageTestScores;
+  }
+
+  set numberOfStudents(newStudentTotal) {
+    if (typeof newStudentTotal === "") {
+      this._numberOfStudents = newStudentTotal;
+    } else {
+      console.log("Invalid input: numberOfStudents must be set to a Number.");
+    }
+  }
+
+  set averageTestScores(averageMeasured) {
+    this._averageTestScores = averageMeasured;
+  }
+
+  quickFacts() {
+    console.log(
+      `${this._name} educates ${this._numberOfStudents} students at the ${this._level} school level.`
+    );
+  }
+
+  static pickSubstituteTeacher(substituteTeachers) {
+    const randomIndex = Math.floor(Math.random() * substituteTeachers.length);
+    console.log(substituteTeachers[randomIndex]);
+  }
+} //End of Class School
+
+class PrimarySchool extends School {
+  constructor(name, numberOfStudents, pickupPolicy) {
+    super(name, "primary", numberOfStudents);
+    this._pickupPolicy = pickupPolicy;
+    this._hasArtsProgram = false;
+  }
+
+  get pickupPolicy() {
+    return this._pickupPolicy;
+  }
+
+  get artsProgram() {
+    return this._hasArtsProgram;
+  }
+
+  toggleArtsProgram() {
+    this._hasArtsProgram = !this._hasArtsProgram;
+  }
+} // End of Class Primary
+
+class MiddleSchool extends School {
+  constructor(name, level, numberOfStudents) {
+    super(name, "middle", numberOfStudents);
+    this._clubs = [];
+  }
+
+  get clubs() {
+    console.log(this._clubs);
+  }
+
+  set clubs(clubList) {
+    this._clubs = culbList;
+  }
+} // End of Class Middle
+
+class HighSchool extends School {
+  constructor(name, numberOfStudents, sportsTeams) {
+    super(name, "high", numberOfStudents);
+    this._sportsTeams = sportsTeams;
+    this._hasCitizenClasses = false;
+    this._citizenClasses = [];
+  }
+
+  get sportsTeams() {
+    console.log(this._sportsTeams);
+  }
+
+  get hasCitizenClasses() {
+    return this._hasCitizenClasses;
+  }
+
+  toggleHasCitizenClasses() {
+    this._hasCitizenClasses = !this._hasCitizenClasses;
+  }
+
+  get citizenClasses() {
+    if (this.hasCitizenClasses) {
+      console.log(this._citizenClasses);
+    } else {
+      console.log("There is no citizen program in this school.");
+    }
+  }
+} // End of Class High
+
+class SchoolCatalog {
+  constructor(level) {
+    this._catalog = [];
+    this._level = level;
+  }
+
+  get catalog() {
+    return this._catalog;
+  }
+
+  get level() {
+    return this._level;
+  }
+
+  checkCatalog(school) {
+    if (this.catalog.includes(school)) {
+      // 👇️ this runs
+      console.log("This school is already in the catalog.");
+      return true;
+    }
+  }
+
+  addSchools() {
+    //Checks length of argument given
+    if (!arguments.length) {
+      console.log("Invalid input: you must input a school");
+    } else {
+      for (let i = 0; i < arguments.length; i++) {
+        //checks for catalog existence
+        if (!this.checkCatalog(arguments[i])) {
+          let argumentLevel = arguments[i].level;
+          let catalogLevel = this.level;
+          argumentLevel === catalogLevel
+            ? this._catalog.push(arguments[i])
+            : console.log(
+                `The school "${arguments[i]}" is of "${argumentLevel}" level `
+              );
+        }
+      }
+    }
+  }
+} //End of Catalog
+
+const lorraineHansbury = new PrimarySchool(
+  "Lorraine Hanbury",
+  514,
+  "Students must be picked up by a parent, guardian, or a family member over the age of 13."
+);
+lorraineHansbury.quickFacts();
+School.pickSubstituteTeacher([
+  "Jamal Crawford",
+  "Lou Williams",
+  "J. R. Smith",
+  "James Harden",
+  "Jason Terry",
+  "Manu Ginobli",
+]);
+
+const alSmith = new HighSchool("Al E. Smith", 415, [
+  "Baseball",
+  "Basketball",
+  "Volleyball",
+  "Track and Field",
+]);
+alSmith.sportsTeams;
+console.log(alSmith.numberOfStudents);
+
+const primaryCatalog = new SchoolCatalog("primary");
+const middleCatalog = new SchoolCatalog("middle");
+const highCatalog = new SchoolCatalog("high");
+
+primaryCatalog.addSchools(lorraineHansbury);
+console.log(primaryCatalog.catalog);
+
+highCatalog.addSchools(alSmith);
+console.log(highCatalog.catalog);
